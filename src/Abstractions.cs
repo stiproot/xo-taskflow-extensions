@@ -21,6 +21,7 @@ internal interface ICoreFlowBuilder
 internal interface INodeConfigurationBuilder
 {
     INodeConfigurationBuilder RequireResult();
+    INodeConfiguration Build();
 }
 
 internal class NodeConfigurationBuilder : INodeConfigurationBuilder
@@ -32,4 +33,6 @@ internal class NodeConfigurationBuilder : INodeConfigurationBuilder
         this._config.RequiresResult = true;
         return this;
     }
+
+    public INodeConfiguration Build() => this._config;
 }

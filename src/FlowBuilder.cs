@@ -18,6 +18,17 @@ internal class FlowBuilder : IFlowBuilder
         throw new NotImplementedException();
     }
 
+    public IFlowBuilder _If<T>(
+        Action<IBranchFlowBuilder> then, 
+        Action<IBranchFlowBuilder> @else
+    )
+    {
+        var serviceType = typeof(T);
+
+
+
+    }
+
     public static Action<INodeConfigurationBuilder> GetLambdaExpr(Expression expr)
     {
         return expr switch
