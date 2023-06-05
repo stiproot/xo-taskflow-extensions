@@ -1,13 +1,18 @@
-﻿internal interface IFlowBuilder : ICoreFlowBuilder
+﻿internal interface IFlowBuilder
 {
     IFlowBuilder FromRoot<T>();
-    // IFlowBuilder If<T>(
-        // Expression<Action<IBranchFlowBuilder>> then, 
-        // Expression<Action<IBranchFlowBuilder>> @else
-    // );
+
+    IFlowBuilder With(Expression<Action<INodeConfigurationBuilder>> config);
 
     IFlowBuilder If<T>(
-        Action<IBranchFlowBuilder> then, 
-        Action<IBranchFlowBuilder> @else
+        Action<IFlowBuilder> then, 
+        Action<IFlowBuilder> @else
     );
+
+    IFlowBuilder Then<T>();
+    IFlowBuilder Then<T>(Action<INodeConfigurationBuilder> config);
+    IFlowBuilder Else<T>();
+    IFlowBuilder Else<T>(Action<INodeConfigurationBuilder> config);
+
+    INode Build();
 }

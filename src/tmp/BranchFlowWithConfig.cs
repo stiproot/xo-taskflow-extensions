@@ -3,7 +3,7 @@
     public static void _Main()
     {
         // example of a Binary branch's `then` lambda...
-        Expression<Action<IBranchFlowBuilder>> thenWithConfig = b => b.Then<IService>().With(c => c.RequireResult());
+        Expression<Action<IFlowBuilder>> thenWithConfig = b => b.Then<IService>().With(c => c.RequireResult());
 
         // lab: metadata inspection...
         if(thenWithConfig.Body is MethodCallExpression expr)
@@ -18,7 +18,7 @@
             {
                 INodeConfigurationBuilder configBuilder = new NodeConfigurationBuilder();
 
-                Action<INodeConfigurationBuilder> action = FlowBuilder.GetLambdaExpr(expr.Arguments[0]);
+                Action<INodeConfigurationBuilder> action = Extensions.GetLambdaExpr(expr.Arguments[0]);
 
                 action(configBuilder);
 
@@ -27,6 +27,5 @@
                 Console.WriteLine(JsonSerializer.Serialize(config));
             }
         }
-
     }
 }

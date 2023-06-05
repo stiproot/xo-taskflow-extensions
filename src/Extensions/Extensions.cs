@@ -1,6 +1,6 @@
 ﻿internal static class Extensions
 {
-    public static Type ServiceType(this Expression<Action<IBranchFlowBuilder>> @this)
+    public static Type ServiceType(this Expression<Action<IFlowBuilder>> @this)
     {
         return GetGenericType(@this);
     }
@@ -10,7 +10,7 @@
         return @this.GenericTypeArguments.First();
     }
 
-    public static Type GetGenericType(Expression<Action<IBranchFlowBuilder>> builder)
+    public static Type GetGenericType(Expression<Action<IFlowBuilder>> builder)
     {
         MethodCallExpression methodCallExpression = (MethodCallExpression)builder.Body;
 
@@ -19,5 +19,15 @@
         Type genericArgument = methodType.GetGenericArguments().First();
 
         return genericArgument;
+    }
+
+    public static Action<INodeConfigurationBuilder> GetLambdaExpr(Expression expr)
+    {
+        return expr switch
+        {
+            UnaryExpression _expr => GetLambdaExpr(_expr.Operand),
+            LambdaExpression _expr => _expr.Compile() as Action<INodeConfigurationBuilder>, 
+            _ => throw new NotSupportedException()
+        };
     }
 }
