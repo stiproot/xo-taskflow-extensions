@@ -26,6 +26,15 @@ public class FlowBuilder : IFlowBuilder
         return this;
     }
 
+    public IFlowBuilder If<T>(
+        Action<IFlowBuilder> then, 
+        Action<IFlowBuilder> @else,
+        Action<INodeConfigurationBuilder> config
+    )
+    {
+        throw new NotImplementedException();
+    }
+
     public IFlowBuilder Then<T>()
     {
         throw new NotImplementedException();

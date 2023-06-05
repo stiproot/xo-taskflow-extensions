@@ -10,6 +10,11 @@ public interface IFlowBuilder
         Action<IFlowBuilder> then, 
         Action<IFlowBuilder> @else
     );
+    IFlowBuilder If<T>(
+        Action<IFlowBuilder> then, 
+        Action<IFlowBuilder> @else,
+        Action<INodeConfigurationBuilder> config
+    );
 
     IFlowBuilder Then<T>();
     IFlowBuilder Then<T>(Action<INodeConfigurationBuilder> config);

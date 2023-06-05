@@ -4,8 +4,11 @@ global using FluentAssertions;
 
 global using Microsoft.Extensions.DependencyInjection;
 global using Xo.TaskFlow.Abstractions;
+global using Xo.TaskFlow.Core;
 global using Xo.TaskFlow.DependencyInjection.Extensions;
 
 global using Xo.TaskFlow.Extensions.DependencyInjection;
 global using Xo.TaskFlow.Extensions.Abstractions;
 global using Xo.TaskFlow.Extensions.Services;
+
+global using Xo.TaskFlow.Extensions.Tests;

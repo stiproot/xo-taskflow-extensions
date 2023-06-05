@@ -84,6 +84,16 @@ public class Y_InObjBool_OutBool_AsyncService : IY_InObjBool_OutBool_AsyncServic
 	}
 }
 
+public interface IY_InBool_OutBool_AsyncService { Task<bool> GetBoolAsync(bool flag); }
+public class Y_InBool_OutBool_AsyncService : IY_InBool_OutBool_AsyncService
+{
+	public async Task<bool> GetBoolAsync(bool flag)
+	{
+		await Task.Delay(Utils.ProcessTimeGenerator());
+		return true;
+	}
+}
+
 public interface IY_InStr_AsyncService { Task ProcessStrAsync(string args3); }
 public class Y_InStr_AsyncService : IY_InStr_AsyncService
 {
