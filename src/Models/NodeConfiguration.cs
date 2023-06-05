@@ -1,4 +1,6 @@
-internal class NodeConfiguration : INodeConfiguration
+namespace Xo.TaskFlow.Extensions.Builders;
+
+public class NodeConfiguration : INodeConfiguration
 {
     public bool RequiresResult { get; set; }
     public string? NextParamName{ get; set; }

@@ -1,19 +1,11 @@
-internal class FlowBuilder : IFlowBuilder
+namespace Xo.TaskFlow.Extensions.Builders;
+
+public class FlowBuilder : IFlowBuilder
 {
     public IFlowBuilder FromRoot<T>()
     {
         throw new NotImplementedException();
     }
-
-    //public IFlowBuilder If<T>(
-        //Expression<Action<IFlowBuilder>> then, 
-        //Expression<Action<IFlowBuilder>> @else
-    //)
-    //{
-        //var serviceType = typeof(T);
-
-        //throw new NotImplementedException();
-    //}
 
     public IFlowBuilder If<T>(
         Action<IFlowBuilder> then, 
@@ -61,6 +53,23 @@ internal class FlowBuilder : IFlowBuilder
     {
         throw new NotImplementedException();
     }
+
+    public IFlowBuilder Pool<T, U, V>()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder Hash<T, U, V>()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder Next<T>()
+    {
+        throw new NotImplementedException();
+    }
+
+
 
     public virtual IFlowBuilder With(Expression<Action<INodeConfigurationBuilder>> config)
     {

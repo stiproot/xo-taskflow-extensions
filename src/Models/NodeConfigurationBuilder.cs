@@ -1,4 +1,6 @@
-﻿internal class NodeConfigurationBuilder : INodeConfigurationBuilder
+﻿namespace Xo.TaskFlow.Extensions.Builders;
+
+public class NodeConfigurationBuilder : INodeConfigurationBuilder
 {
     private readonly INodeConfiguration _config = new NodeConfiguration();
 

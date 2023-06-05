@@ -1,4 +1,6 @@
-﻿internal static class Extensions
+﻿namespace Xo.TaskFlow.Extensions.Reflection;
+
+public static class TypeExtensions
 {
     public static Type ServiceType(this Expression<Action<IFlowBuilder>> @this)
     {
