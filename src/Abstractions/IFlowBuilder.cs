@@ -1,8 +1,13 @@
 ﻿internal interface IFlowBuilder : ICoreFlowBuilder
 {
     IFlowBuilder FromRoot<T>();
+    // IFlowBuilder If<T>(
+        // Expression<Action<IBranchFlowBuilder>> then, 
+        // Expression<Action<IBranchFlowBuilder>> @else
+    // );
+
     IFlowBuilder If<T>(
-        Expression<Action<IBranchFlowBuilder>> then, 
-        Expression<Action<IBranchFlowBuilder>> @else
+        Action<IBranchFlowBuilder> then, 
+        Action<IBranchFlowBuilder> @else
     );
 }

@@ -8,5 +8,11 @@
         return this;
     }
 
+    public INodeConfigurationBuilder NextParam(string nextParamName)
+    {
+        this._config.NextParamName = nextParamName;
+        return this;
+    }
+
     public INodeConfiguration Build() => this._config;
 }

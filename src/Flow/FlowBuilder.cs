@@ -10,21 +10,31 @@ internal class FlowBuilder : IFlowBuilder
         throw new NotImplementedException();
     }
 
-    public IFlowBuilder If<T>(
-        Expression<Action<IBranchFlowBuilder>> then, 
-        Expression<Action<IBranchFlowBuilder>> @else
-    )
-    {
-        throw new NotImplementedException();
-    }
+    //public IFlowBuilder If<T>(
+        //Expression<Action<IBranchFlowBuilder>> then, 
+        //Expression<Action<IBranchFlowBuilder>> @else
+    //)
+    //{
+        //var serviceType = typeof(T);
 
-    public IFlowBuilder _If<T>(
+        //throw new NotImplementedException();
+    //}
+
+    public IFlowBuilder If<T>(
         Action<IBranchFlowBuilder> then, 
         Action<IBranchFlowBuilder> @else
     )
     {
         var serviceType = typeof(T);
-        throw new NotImplementedException();
+
+        var thenBuilder = new BranchFlowBuilder();
+        then(thenBuilder);
+        var thenNode = thenBuilder.
+
+        var elseBuilder = new BranchFlowBuilder();
+        @else(elseBuilder);
+
+        return this;
     }
 
     public static Action<INodeConfigurationBuilder> GetLambdaExpr(Expression expr)
