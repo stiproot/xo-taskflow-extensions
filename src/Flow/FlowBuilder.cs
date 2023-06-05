@@ -1,11 +1,6 @@
-internal class FlowBuilder : IFlowBuilder
+internal class FlowBuilder : CoreFlowBuilder, IFlowBuilder
 {
     public IFlowBuilder FromRoot<T>()
-    {
-        throw new NotImplementedException();
-    }
-
-    public IFlowBuilder With(Expression<Action<INodeConfigurationBuilder>> config)
     {
         throw new NotImplementedException();
     }
@@ -27,12 +22,14 @@ internal class FlowBuilder : IFlowBuilder
     {
         var serviceType = typeof(T);
 
+        //  
         var thenBuilder = new BranchFlowBuilder();
         then(thenBuilder);
-        var thenNode = thenBuilder.
+        var thenNode = thenBuilder.Build();
 
         var elseBuilder = new BranchFlowBuilder();
         @else(elseBuilder);
+        var elseNode = elseBuilder.Build();
 
         return this;
     }
