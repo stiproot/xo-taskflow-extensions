@@ -2,19 +2,38 @@ namespace Xo.TaskFlow.Extensions.Builders;
 
 public class FlowBuilder : IFlowBuilder
 {
-    public IFlowBuilder FromRoot<T>()
+    public IFlowBuilder Root<T>()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder Root<T>(Action<IFlowBuilder> arg)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder Arg<T>()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder AsArg<T>()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder AsArgs<T, U, V>()
     {
         throw new NotImplementedException();
     }
 
     public IFlowBuilder If<T>(
-        Action<IFlowBuilder> then, 
+        Action<IFlowBuilder> then,
         Action<IFlowBuilder> @else
     )
     {
         var serviceType = typeof(T);
 
-        //  
         var thenBuilder = new FlowBuilder();
         then(thenBuilder);
         var thenNode = thenBuilder.Build();
@@ -26,8 +45,25 @@ public class FlowBuilder : IFlowBuilder
         return this;
     }
 
+    public IFlowBuilder If<T, TResolver>(
+        Action<IFlowBuilder> then,
+        Action<IFlowBuilder> @else
+    )
+    {
+        throw new NotImplementedException();
+    }
+
     public IFlowBuilder If<T>(
-        Action<IFlowBuilder> then, 
+        Action<IFlowBuilder> then,
+        Action<IFlowBuilder> @else,
+        Action<INodeConfigurationBuilder> config
+    )
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder If<T, TResolver>(
+        Action<IFlowBuilder> then,
         Action<IFlowBuilder> @else,
         Action<INodeConfigurationBuilder> config
     )
@@ -78,13 +114,10 @@ public class FlowBuilder : IFlowBuilder
         throw new NotImplementedException();
     }
 
-
-
     public virtual IFlowBuilder With(Expression<Action<INodeConfigurationBuilder>> config)
     {
         throw new NotImplementedException();
     }
 
-    public virtual INode Build() => throw new NotImplementedException(); 
-
+    public virtual INode Build() => throw new NotImplementedException();
 }

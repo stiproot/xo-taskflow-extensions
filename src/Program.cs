@@ -2,7 +2,7 @@
 
 //// if-else 
 //var flow2 = builder
-    //.FromRoot<IService>()
+    //.Root<IService>()
     //.If<IService>(
         //b => b
             //.Then<IService>(c => c.RequireResult().NextParam("some_param_name")),
