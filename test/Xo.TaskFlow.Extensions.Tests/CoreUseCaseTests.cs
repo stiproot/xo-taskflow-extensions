@@ -49,7 +49,7 @@ public class CoreUseCaseTests
     }
 
     [Fact]
-    public async Task RootAsArg()
+    public async Task NodeAsRootArg()
     {
         var ct = NewCancellationToken();
         IFlowBuilder builder = _provider.Get<IFlowBuilder>();
@@ -71,7 +71,6 @@ public class CoreUseCaseTests
     {
         var ct = NewCancellationToken();
         IFlowBuilder builder = _provider.Get<IFlowBuilder>();
-
         var flow = builder
             .Root<IY_InBoolStr_OutConstInt_AsyncService>()
                 .Arg(a => a.Root<IY_InStr_OutBool_AsyncService>())
@@ -81,7 +80,9 @@ public class CoreUseCaseTests
         var msg = await node.Run(ct);
         int data = (msg as Msg<int>)!.GetData();
 
-        data.Should().Be(1);
+        data
+            .Should()
+            .Be(1);
     }
 
     [Fact]
@@ -107,7 +108,6 @@ public class CoreUseCaseTests
     {
         var ct = NewCancellationToken();
         IFlowBuilder builder = _provider.Get<IFlowBuilder>();
-
         var flow = builder
             .Root<IY_InBoolStr_OutConstInt_AsyncService>()
                 .Arg<IY_OutConstBool_SyncService>(c => c.NextParam("flag"))
@@ -120,7 +120,8 @@ public class CoreUseCaseTests
         var msg = await node.Run(ct);
         int data = (msg as Msg<int>)!.GetData();
 
-        data.Should().Be(1);
+        data
+            .Should()
+            .Be(1);
     }
-
 }

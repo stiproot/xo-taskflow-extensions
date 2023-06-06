@@ -5,6 +5,10 @@ public interface IFlowBuilder
     IFlowBuilder Root<T>();
     IFlowBuilder Root<T>(Action<INodeConfigurationBuilder> config);
     IFlowBuilder Root<T>(Action<IFlowBuilder> arg);
+    IFlowBuilder Root<T>(
+        Action<IFlowBuilder> arg,
+        Action<INodeConfigurationBuilder> config
+    );
 
     IFlowBuilder Arg<T>();
     IFlowBuilder Arg<T>(Action<INodeConfigurationBuilder> config);

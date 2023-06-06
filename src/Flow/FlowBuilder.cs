@@ -17,6 +17,14 @@ public class FlowBuilder : IFlowBuilder
         throw new NotImplementedException();
     }
 
+    public IFlowBuilder Root<T>(
+        Action<IFlowBuilder> arg,
+        Action<INodeConfigurationBuilder> config
+    )
+    {
+        throw new NotImplementedException();
+    }
+
     public IFlowBuilder Arg<T>()
     {
         throw new NotImplementedException();
