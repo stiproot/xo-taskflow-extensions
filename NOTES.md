@@ -48,3 +48,32 @@ FlowBuilder to NodeBuilder:
     Root() -> Binary().True().False();
 
 Each call needs to build a node, which gets propogated "up"... to be continued.
+
+
+### Complexity Analysis
+
+```c#
+
+var flow = builder
+            .Root<IY_InBoolStr_OutConstInt_AsyncService>(
+                arg => arg
+                        .Node<IY_OutConstBool_SyncService>() 
+                        .Node<IY_OutConstBool_SyncService>(), 
+                c => c.AddArg("simon", "args")
+            )
+            .If<IY_InInt_OutBool_SyncService>(
+                b => b
+                    .Then<IY_InBoolStr_OutConstInt_AsyncService>(c => c.RequireResult().AddArg("simon", "args"))
+                    .Then<IY_InInt_OutBool_SyncService>(c => c.RequireResult())
+                    .Pool<IY_InBool_OutBool_AsyncService, IY_InObjBool_OutStr_AsyncService, IY_InStr_AsyncService>(),
+                b => b.Else<IService>(),
+                c => c.RequireResult()
+            );
+```
+
+### State Management
+Flow builder functions define nodes. 
+The order and position the are called, define transitions.
+
+What is the best way to manage state?
+
