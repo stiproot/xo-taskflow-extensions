@@ -9,14 +9,18 @@ public static class TaskFlowServiceCollectionExtensions
     public static IServiceCollection AddTaskFlowExtensions(this IServiceCollection @this)
     {
         return @this
-            .AddTaskWorkflowEngineServices()
+            .AddTaskFlowServices()
             .AddFrameworkServices();
     }
 
     private static IServiceCollection AddFrameworkServices(this IServiceCollection @this)
-    {
-        @this.TryAddSingleton<IFlowBuilder, FlowBuilder>();
+        => @this.XTryAddSingleton<IFlowBuilder, FlowBuilder>();
 
+    private static IServiceCollection XTryAddSingleton<I, T>(this IServiceCollection @this)
+        where I: class
+        where T: class, I
+    {
+        @this.TryAddSingleton<I, T>();
         return @this;
     }
 }

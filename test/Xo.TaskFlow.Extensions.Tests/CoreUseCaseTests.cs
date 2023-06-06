@@ -67,6 +67,24 @@ public class CoreUseCaseTests
     }
 
     [Fact]
+    public async Task ArgWhichItselfIsAFlow()
+    {
+        var ct = NewCancellationToken();
+        IFlowBuilder builder = _provider.Get<IFlowBuilder>();
+
+        var flow = builder
+            .Root<IY_InBoolStr_OutConstInt_AsyncService>()
+                .Arg(a => a.Root<IY_InStr_OutBool_AsyncService>())
+                    .Arg(a => a.Node<IY_InObjBool_OutStr_AsyncService>(c => c.AddArg(true, "flag")));
+        
+        var node = flow.Build();
+        var msg = await node.Run(ct);
+        int data = (msg as Msg<int>)!.GetData();
+
+        data.Should().Be(1);
+    }
+
+    [Fact]
     public async Task RootAsArgs_THEN_TranslatesToPool()
     {
         var ct = NewCancellationToken();
@@ -83,4 +101,26 @@ public class CoreUseCaseTests
             .Should()
             .Be(true);
     }
+
+    [Fact]
+    public async Task Args()
+    {
+        var ct = NewCancellationToken();
+        IFlowBuilder builder = _provider.Get<IFlowBuilder>();
+
+        var flow = builder
+            .Root<IY_InBoolStr_OutConstInt_AsyncService>()
+                .Arg<IY_OutConstBool_SyncService>(c => c.NextParam("flag"))
+                .Arg<IY_InObjBool_OutStr_AsyncService>(c => c
+                    .AddArg(true, "flag")
+                    .AddArg(new object(), "obj")
+                    .NextParam("args"));
+        
+        var node = flow.Build();
+        var msg = await node.Run(ct);
+        int data = (msg as Msg<int>)!.GetData();
+
+        data.Should().Be(1);
+    }
+
 }

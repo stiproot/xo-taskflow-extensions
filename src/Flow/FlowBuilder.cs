@@ -7,12 +7,27 @@ public class FlowBuilder : IFlowBuilder
         throw new NotImplementedException();
     }
 
+    public IFlowBuilder Root<T>(Action<INodeConfigurationBuilder> config)
+    {
+        throw new NotImplementedException();
+    }
+
     public IFlowBuilder Root<T>(Action<IFlowBuilder> arg)
     {
         throw new NotImplementedException();
     }
 
     public IFlowBuilder Arg<T>()
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder Arg(Action<IFlowBuilder> arg)
+    {
+        throw new NotImplementedException();
+    }
+
+    public IFlowBuilder Arg<T>(Action<INodeConfigurationBuilder> config)
     {
         throw new NotImplementedException();
     }
@@ -104,14 +119,24 @@ public class FlowBuilder : IFlowBuilder
         throw new NotImplementedException();
     }
 
+    public IFlowBuilder Next<T>()
+    {
+        throw new NotImplementedException();
+    }
+
     public IFlowBuilder Hash<T, U, V>()
     {
         throw new NotImplementedException();
     }
 
-    public IFlowBuilder Next<T>()
-    {
-        throw new NotImplementedException();
+    public IFlowBuilder Node<T>()
+    { 
+        throw new NotImplementedException(); 
+    }
+
+    public IFlowBuilder Node<T>(Action<INodeConfigurationBuilder> config)
+    { 
+        throw new NotImplementedException(); 
     }
 
     public virtual IFlowBuilder With(Expression<Action<INodeConfigurationBuilder>> config)

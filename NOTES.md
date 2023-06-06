@@ -1,5 +1,4 @@
-﻿
-## Node Types
+﻿## Node Types
 ### There needs to types of node abstratctions in a flow
 1. A movement
 2. A functory
@@ -17,9 +16,6 @@ Root<T> // specifies the root node, that will be awaited
 Root<T>(c => c.Arg<Y>()) // Y results in an argument for T: T.t(Y.y) [in-review]
 Root<T>().AsArg<Y>() // Linked Node is implied with, with Y requiring result [in-review]
 Root<T>().AsArgs<X, Y>() // Pool Node is implied with, with X and Y both requiring results (unless opted out) [in-review]
-
-
-
 
 ## Conditional Nodes
 ### If
@@ -52,4 +48,3 @@ FlowBuilder to NodeBuilder:
     Root() -> Binary().True().False();
 
 Each call needs to build a node, which gets propogated "up"... to be continued.
-
