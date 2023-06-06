@@ -30,6 +30,26 @@ If<T> -> Pool<X, Y, Z> : Else<R> // if, then, else
 If<T> -> Pool<X, Y, Z> // if, then
 If<T> -> Else<R> // if, else
 
+## Building
+### 
+```c#
+var flow = builder
+    .Root<IY_OutConstBool_SyncService>()
+    .If<IY_InBool_OutBool_AsyncService>(
+        b => b
+            .Then<IY_InBoolStr_OutConstInt_AsyncService>(
+                c => c
+                    .RequireResult()
+                    .AddArg("simon", "args")),
+        b => b.Else<IService>(),
+        c => c.RequireResult()
+    );
 
+var node = flow.Build();
+```
 
+FlowBuilder to NodeBuilder:
+    Root() -> Binary().True().False();
+
+Each call needs to build a node, which gets propogated "up"... to be continued.
 
