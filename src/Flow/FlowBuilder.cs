@@ -2,8 +2,7 @@ namespace Xo.TaskFlow.Extensions.Builders;
 
 public class FlowBuilder : IFlowBuilder
 {
-    private readonly INodeBuilderFactory _nodeBuilderFactory;
-    protected INode _Staged;
+    protected readonly INodeBuilderFactory _NodeBuilderFactory;
 
     public IFlowBuilder Root<T>()
     {
@@ -25,7 +24,7 @@ public class FlowBuilder : IFlowBuilder
         Action<INodeConfigurationBuilder> config
     )
     {
-        var nodeBuilder = this._nodeBuilderFactory
+        var nodeBuilder = this._NodeBuilderFactory
             .Create()
             .AddFunctory<T>();
 
@@ -40,9 +39,26 @@ public class FlowBuilder : IFlowBuilder
         config(configBuilder);
         var nodeConfiguration = configBuilder.Build();
 
-       this._Staged = nodeBuilder.Build();
+        throw new NotImplementedException();
+    }
 
-        return this;
+    public IFlowBuilder Root<T>(
+        Action<INodeConfigurationBuilder> config,
+        Action<IFlowBuilder> arg,
+        Action<IFlowBuilder> next
+    )
+    {
+        var nodeConfiguration = config.BuildConfiguration();
+        var argNode = arg.BuildNode();
+        var nextNode = next.BuildNode();
+
+        var nodeBuilder = this._NodeBuilderFactory
+            .Linked()
+            .SetNext(nextNode)
+            .AddArg(argNode)
+            .AddFunctory<T>();
+
+        throw new NotImplementedException();
     }
 
     public IFlowBuilder Arg<T>()
@@ -158,13 +174,13 @@ public class FlowBuilder : IFlowBuilder
     }
 
     public IFlowBuilder Node<T>()
-    { 
-        throw new NotImplementedException(); 
+    {
+        throw new NotImplementedException();
     }
 
     public IFlowBuilder Node<T>(Action<INodeConfigurationBuilder> config)
-    { 
-        throw new NotImplementedException(); 
+    {
+        throw new NotImplementedException();
     }
 
     public virtual IFlowBuilder With(Expression<Action<INodeConfigurationBuilder>> config)
