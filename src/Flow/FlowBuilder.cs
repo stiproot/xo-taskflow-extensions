@@ -24,41 +24,26 @@ public class FlowBuilder : IFlowBuilder
         Action<INodeConfigurationBuilder> config
     )
     {
-        var nodeBuilder = this._NodeBuilderFactory
-            .Create()
-            .AddFunctory<T>();
-
-        var argFlow = new FlowBuilder();
-        arg(argFlow);
-        var argNode = argFlow.Build();
-
-        nodeBuilder
-            .AddArg(argNode);
-
-        var configBuilder = new NodeConfigurationBuilder();
-        config(configBuilder);
-        var nodeConfiguration = configBuilder.Build();
-
         throw new NotImplementedException();
     }
 
-    public IFlowBuilder Root<T>(
+    public INode Root<T>(
         Action<INodeConfigurationBuilder> config,
         Action<IFlowBuilder> arg,
-        Action<IFlowBuilder> next
+        Action<IFlowBuilder> then
     )
     {
         var nodeConfiguration = config.BuildConfiguration();
         var argNode = arg.BuildNode();
-        var nextNode = next.BuildNode();
+        var thenNode = then.BuildNode();
 
         var nodeBuilder = this._NodeBuilderFactory
             .Linked()
-            .SetNext(nextNode)
+            .SetNext(thenNode)
             .AddArg(argNode)
             .AddFunctory<T>();
 
-        throw new NotImplementedException();
+        return nodeBuilder.Build();
     }
 
     public IFlowBuilder Arg<T>()
@@ -91,8 +76,6 @@ public class FlowBuilder : IFlowBuilder
         Action<IFlowBuilder> @else
     )
     {
-        var serviceType = typeof(T);
-
         var thenBuilder = new FlowBuilder();
         then(thenBuilder);
         var thenNode = thenBuilder.Build();
@@ -102,6 +85,23 @@ public class FlowBuilder : IFlowBuilder
         var elseNode = elseBuilder.Build();
 
         return this;
+    }
+
+    public INode Then<T>(
+        Action<INodeConfigurationBuilder> config,
+        Action<IFlowBuilder> then
+    )
+    {
+        var thenNode = then.BuildNode();
+        var nodeConfiguration = config.BuildConfiguration();
+
+        var nodeBuilder = this._NodeBuilderFactory
+            .Linked()
+            .SetNext(thenNode)
+            // .AddArg(argNode)
+            .AddFunctory<T>();
+
+        return nodeBuilder.Build();
     }
 
     public IFlowBuilder If<T, TResolver>(
@@ -119,6 +119,23 @@ public class FlowBuilder : IFlowBuilder
     )
     {
         throw new NotImplementedException();
+    }
+
+    public INode If<T>(
+        Action<INodeConfigurationBuilder> config,
+        Action<IFlowBuilder> then,
+        Action<IFlowBuilder> @else
+    )
+    {
+        var nodeConfiguration = config.BuildConfiguration();
+        var thenNode = then.BuildNode();
+        var elseNode = @else.BuildNode();
+
+        var builder = this._NodeBuilderFactory.Binary()
+            .AddTrue(thenNode)
+            .AddFalse(elseNode);
+
+        return builder.Build();
     }
 
     public IFlowBuilder If<T, TResolver>(
@@ -159,6 +176,16 @@ public class FlowBuilder : IFlowBuilder
     }
 
     public IFlowBuilder Pool<T, U, V>()
+    {
+        throw new NotImplementedException();
+    }
+
+    public INode Pool<T, U, V>(
+        Action<INodeConfigurationBuilder> tConfig,
+        Action<INodeConfigurationBuilder> uConfig,
+        Action<INodeConfigurationBuilder> vConfig,
+        Action<IFlowBuilder>? then = null
+    )
     {
         throw new NotImplementedException();
     }

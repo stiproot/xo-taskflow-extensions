@@ -9,7 +9,7 @@ public interface IFlowBuilder
         Action<IFlowBuilder> arg,
         Action<INodeConfigurationBuilder> config
     );
-    IFlowBuilder Root<T>(
+    INode Root<T>(
         Action<INodeConfigurationBuilder> config,
         Action<IFlowBuilder> arg,
         Action<IFlowBuilder> next
@@ -41,13 +41,30 @@ public interface IFlowBuilder
         Action<INodeConfigurationBuilder> config
     );
 
+    INode If<T>(
+        Action<INodeConfigurationBuilder> config,
+        Action<IFlowBuilder> then,
+        Action<IFlowBuilder> @else
+    );
+
     IFlowBuilder Then<T>();
     IFlowBuilder Then<T>(Action<INodeConfigurationBuilder> config);
+    INode Then<T>(
+        Action<INodeConfigurationBuilder> config,
+        Action<IFlowBuilder> then
+    );
 
     IFlowBuilder Else<T>();
     IFlowBuilder Else<T>(Action<INodeConfigurationBuilder> config);
 
     IFlowBuilder Pool<T, U, V>();
+    INode Pool<T, U, V>(
+        Action<INodeConfigurationBuilder> tConfig,
+        Action<INodeConfigurationBuilder> uConfig,
+        Action<INodeConfigurationBuilder> vConfig,
+        Action<IFlowBuilder>? then = null
+    );
+
     IFlowBuilder Next<T>();
     IFlowBuilder Hash<T, U, V>();
 

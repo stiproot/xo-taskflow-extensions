@@ -11,21 +11,27 @@ public class ComplexUseCaseTests
         var ct = NewCancellationToken();
         IFlowBuilder builder = _provider.Get<IFlowBuilder>();
 
-        var flow = builder
+        var node = builder
             .Root<IY_InBoolStr_OutConstInt_AsyncService>(
-                arg => arg.Node<IY_OutConstBool_SyncService>(), 
-                c => c.AddArg("simon", "args")
-            )
-            .If<IY_InInt_OutBool_SyncService>(
-                b => b
-                    .Then<IY_InBoolStr_OutConstInt_AsyncService>(c => c.RequireResult().AddArg("simon", "args"))
-                    .Then<IY_InInt_OutBool_SyncService>(c => c.RequireResult())
-                    .Pool<IY_InBool_OutBool_AsyncService, IY_InObjBool_OutStr_AsyncService, IY_InStr_AsyncService>(),
-                b => b.Else<IService>(),
-                c => c.RequireResult()
-            );
+                config => config.AddArg("simon", "args"),
+                arg => arg.Node<IY_OutConstBool_SyncService>(),
+                then => then.If<IY_InInt_OutBool_SyncService>(
+                    config => config.RequireResult(),
+                    then => then
+                        .Then<IY_InBoolStr_OutConstInt_AsyncService>(
+                            config => config.RequireResult().AddArg("simon", "args"),
+                            then => then.Then<IY_InInt_OutBool_SyncService>(
+                                config => config.RequireResult(),
+                                then => then.Pool<IY_InBool_OutBool_AsyncService, IY_InObjBool_OutStr_AsyncService, IY_InStr_AsyncService>(
+                                    tConfig => tConfig.RequireResult(),
+                                    uConfig => uConfig.RequireResult(),
+                                    vConfig => vConfig.RequireResult()
+                                )
+                            )
+                        ),
+                    @else => @else.Else<IService>()
+                ));
 
-        var node = flow.Build();
         var msg = await node.Run(ct);
         int data = (msg as Msg<int>)!.GetData();
 
