@@ -2,6 +2,9 @@ namespace Xo.TaskFlow.Extensions.Builders;
 
 public class FlowBuilder : IFlowBuilder
 {
+    private readonly INodeBuilderFactory _nodeBuilderFactory;
+    protected INode _Staged;
+
     public IFlowBuilder Root<T>()
     {
         throw new NotImplementedException();
@@ -22,7 +25,24 @@ public class FlowBuilder : IFlowBuilder
         Action<INodeConfigurationBuilder> config
     )
     {
-        throw new NotImplementedException();
+        var nodeBuilder = this._nodeBuilderFactory
+            .Create()
+            .AddFunctory<T>();
+
+        var argFlow = new FlowBuilder();
+        arg(argFlow);
+        var argNode = argFlow.Build();
+
+        nodeBuilder
+            .AddArg(argNode);
+
+        var configBuilder = new NodeConfigurationBuilder();
+        config(configBuilder);
+        var nodeConfiguration = configBuilder.Build();
+
+       this._Staged = nodeBuilder.Build();
+
+        return this;
     }
 
     public IFlowBuilder Arg<T>()
