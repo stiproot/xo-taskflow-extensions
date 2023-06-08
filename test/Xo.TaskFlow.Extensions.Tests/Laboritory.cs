@@ -8,12 +8,12 @@ public class Laboritory
     [Fact]
     public async Task Beta()
     {
-        // var ct = NewCancellationToken();
+        // var ct = NewCancellationToken(); 
         IXFlowBuilder builder = _provider.Get<IXFlowBuilder>();
 
         builder
-            .AsArg<IY_OutConstBool_SyncService>()
             .Root<IY_InBool_OutBool_AsyncService>()
+            .Arg<IY_OutConstBool_SyncService>()
             .Next<IY_InBool_OutBool_AsyncService>();
     }
 }
