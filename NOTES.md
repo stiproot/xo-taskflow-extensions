@@ -26,34 +26,41 @@ If<T> -> Pool<X, Y, Z> : Else<R> // if, then, else
 If<T> -> Pool<X, Y, Z> // if, then
 If<T> -> Else<R> // if, else
 
-## Building
-### 
-```c#
-var flow = builder
-    .Root<IY_OutConstBool_SyncService>()
-    .If<IY_InBool_OutBool_AsyncService>(
-        b => b
-            .Then<IY_InBoolStr_OutConstInt_AsyncService>(
-                c => c
-                    .RequireResult()
-                    .AddArg("simon", "args")),
-        b => b.Else<IService>(),
-        c => c.RequireResult()
-    );
+## Laws 
+1. If a node directly references other nodes, then the node type needs to be defined upfront. Which would require building the tree in reverse (I think), which seems unrealistic.
+2.  
 
-var node = flow.Build();
+## Building
+### Nested
+
+```c#
+var node = builder
+    .Root<IY_InBoolStr_OutConstInt_AsyncService>(
+        config => config.AddArg("simon", "args"),
+        arg => arg.Node<IY_OutConstBool_SyncService>(),
+        then => then.If<IY_InInt_OutBool_SyncService>(
+            config => config.RequireResult(),
+            then => then
+                .Then<IY_InBoolStr_OutConstInt_AsyncService>(
+                    config => config.RequireResult().AddArg("simon", "args"),
+                    then => then.Then<IY_InInt_OutBool_SyncService>(
+                        config => config.RequireResult(),
+                        then => then.Pool<IY_InBool_OutBool_AsyncService, IY_InObjBool_OutStr_AsyncService, IY_InStr_AsyncService>(
+                            tConfig => tConfig.RequireResult(),
+                            uConfig => uConfig.RequireResult(),
+                            vConfig => vConfig.RequireResult()
+                        )
+                    )
+                ),
+            @else => @else.Else<IService>()
+        ));
 ```
 
-FlowBuilder to NodeBuilder:
-    Root() -> Binary().True().False();
+### Fluent
 
-Each call needs to build a node, which gets propogated "up"... to be continued.
-
-
-### Complexity Analysis
+Ideally, workflow construction should be as fluent and intuitive as possible...
 
 ```c#
-
 var flow = builder
             .Root<IY_InBoolStr_OutConstInt_AsyncService>(
                 arg => arg
@@ -71,9 +78,8 @@ var flow = builder
             );
 ```
 
-### State Management
-Flow builder functions define nodes. 
-The order and position the are called, define transitions.
+Root -> Pool // this transition defines the type of node that Root actually is, and so, logically, Root cannot be defined ahead of time.
 
-What is the best way to manage state?
+Internal representation:
 
+    
