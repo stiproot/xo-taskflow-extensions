@@ -28,7 +28,7 @@ If<T> -> Else<R> // if, else
 
 ## Laws 
 1. If a node directly references other nodes, then the node type needs to be defined upfront. Which would require building the tree in reverse (I think), which seems unrealistic.
-2.  
+2. It the lowest level, nodes should be as simple as possible.
 
 ## Building
 ### Nested
@@ -78,7 +78,9 @@ var flow = builder
             );
 ```
 
-Root -> Pool // this transition defines the type of node that Root actually is, and so, logically, Root cannot be defined ahead of time.
+Root -> Pool // this transition defines the type of node that Root is, and so, logically, Root cannot be defined ahead of time.
+
+
 
 Internal representation:
 
